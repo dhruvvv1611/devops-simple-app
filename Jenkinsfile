@@ -12,7 +12,8 @@ pipeline{
     stages{
         stage("Checkout Code"){
             steps{
-                git url: "https://github.com/dhruvvv1611/devops-simple-app.git" branch: "main"
+               git url: 'https://github.com/dhruvvv1611/devops-simple-app.git', branch: 'main'
+
             }
         }
 
