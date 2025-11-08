@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./server
+    container_name: backend
+    restart: always
+    env_file:
+      - ./server/.env
+    ports:
+      - "5000:5000"   # expose backend to host (optional for debugging)
+  
+  frontend:
+    build:
+      context: ./client
+      args:
+        VITE_API_URL: http://localhost:5000/api  # ✅ internal service name
+    container_name: frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
