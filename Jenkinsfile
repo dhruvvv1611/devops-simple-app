@@ -11,7 +11,24 @@ pipeline {
     stages {
         stage("Checkout Code") {
             steps {
-                git url: "https://github.com/dhruvvv1611/devops-simple-app.git", branch: "main"
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/dhruvvv1611/devops-simple-app.git'
+                    ]]
+                ])
+            }
+        }
+
+        stage("Verify Repo") {
+            steps {
+                sh '''
+                echo "Current Directory:"
+                pwd
+                echo "Files:"
+                ls -la
+                '''
             }
         }
 
@@ -42,8 +59,6 @@ pipeline {
                 sh '''
                 echo "Starting Docker Compose..."
                 docker compose up -d || docker-compose up -d
-
-                echo "Waiting for services to stabilize..."
                 docker ps
                 '''
             }
